@@ -1,4 +1,5 @@
 import "./keepalive.js";
+import "./keepalive.js";
 import './keepalive.js';
 // SKWS247 Bot – Telegraf (Codespaces/Render ready)
 // npm i telegraf node-fetch dotenv
