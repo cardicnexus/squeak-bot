@@ -1,26 +1,21 @@
 import "./keepalive.js";
-import "./keepalive.js";
-import './keepalive.js';
-// SKWS247 Bot – Telegraf (Codespaces/Render ready)
-// npm i telegraf node-fetch dotenv
-require('dotenv').config();
-const { Telegraf, Markup } = require('telegraf');
-const fetch = require('node-fetch');
+import 'dotenv/config';
+import fetch from 'node-fetch';
+import { Telegraf, Markup } from 'telegraf';
 
+// === BOT CONFIG ===
 const BOT_TOKEN = process.env.BOT_TOKEN;
 if (!BOT_TOKEN) {
   throw new Error('BOT_TOKEN missing in .env');
 }
 
-// === SKWS247 links ===
+const TICKER = 'SKWS247';
 const MINT = 'GnBeEAfVkFZMnmjNDJawzyU34Z9FfymZdfLEw3eL1tqo';
 const PUMP = 'https://pump.fun/coin/GnBeEAfVkFZMnmjNDJawzyU34Z9FfymZdfLEw3eL1tqo';
 const DEX  = `https://dexscreener.com/solana/${MINT}`;
-const JUP  = `https://jup.ag/swap/SOL-SKWS247?outputMint=${MINT}`;
+const JUP  = `https://jup.ag/swap/SOL-${TICKER}?outputMint=${MINT}`;
 const BIRD = `https://birdeye.so/token/${MINT}?chain=solana`;
-
-// Community links (provided by user)
-const TG_COMMUNITY = 'https://t.me/officialpump4life'; // Telegram only for now
+const TG_COMMUNITY = 'https://t.me/officialpump4life';
 
 const bot = new Telegraf(BOT_TOKEN);
 
@@ -58,7 +53,7 @@ async function getStats() {
 // ===== Commands =====
 bot.start(async (ctx) => {
   await ctx.replyWithHTML(
-`🐭 <b>Welcome to SKWS247</b> — the funniest meme coin on Solana! 🧀
+`🐭 <b>Welcome to ${TICKER}</b> — the funniest meme coin on Solana! 🧀
 Commands: /contract /chart /buy /community /fun /stats`,
     Markup.inlineKeyboard([
       [Markup.button.url('🛒 Buy (Pump.fun)', PUMP)],
@@ -96,7 +91,7 @@ bot.command('community', (ctx) =>
 const funLines = [
   '🐭 Squeak squeak! Diamond paws only.',
   '🧀 More cheese, less FUD.',
-  '🚀 The mouse pack never sleeps.'
+  '�� The mouse pack never sleeps.'
 ];
 bot.command('fun', (ctx) => ctx.reply(funLines[Math.floor(Math.random()*funLines.length)]));
 
@@ -106,7 +101,7 @@ bot.command('stats', async (ctx) => {
     'ℹ️ Not on Dexscreener yet (still off-chain on Pump.fun).\n' + PUMP
   );
   const msg =
-`📈 <b>$SKWS247 Stats</b>
+`📈 <b>$${TICKER} Stats</b>
 • Price: $${s.price?.toFixed(6)}
 • 24h Vol: $${Math.round(s.vol24 || 0).toLocaleString()}
 • Liquidity: $${Math.round(s.liq || 0).toLocaleString()}
@@ -115,6 +110,6 @@ bot.command('stats', async (ctx) => {
   await ctx.replyWithHTML(msg);
 });
 
-bot.launch().then(() => console.log('✅ SKWS247 bot running'));
+bot.launch().then(() => console.log('✅ SQUEAK bot running'));
 process.on('SIGINT', () => bot.stop('SIGINT'));
 process.on('SIGTERM', () => bot.stop('SIGTERM'));
